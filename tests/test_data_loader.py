@@ -1,7 +1,7 @@
-from preprocessing.data_loader import initialise_players
-
-import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+
+from preprocessing.data_loader import initialise_players
 
 test_records_df = pd.DataFrame({
         "Date": [
@@ -31,6 +31,8 @@ test_records_df = pd.DataFrame({
         "Ctl42":np.zeros(12), })
 
 wellness_sheets = {
+    "Illness": pd.DataFrame({"Date": [], "Player": [], "Problems": []}),
+    "Game Performance": pd.DataFrame({"Date": [], "Player": [], "Team Overall Performance": [], "Individual Offensive Performance": [], "Individual Defensive Performance": []}),
     "Injury": pd.DataFrame(
         {
             "Date": ["01.01.2000", "02.02.2000", "10.02.2000"],
@@ -203,7 +205,8 @@ record_sheets = {
 
 def test_initialise_players():
     """More tests should be implemented."""
-    output = initialise_players(wellness_sheets, record_sheets)
+    name_mapping = {'0': 'A', '1': 'B', '2': 'C', '3': 'D'}
+    output = initialise_players(wellness_sheets, record_sheets, name_mapping)
     assert output["0"].name == "A"
     assert output["3"].name == "D"
     assert output["1"].stress.equals(

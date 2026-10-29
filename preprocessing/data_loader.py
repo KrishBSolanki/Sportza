@@ -105,6 +105,7 @@ class SoccerPlayer:
     soreness: pd.Series
     stress: pd.Series
     injuries: List[Injury]
+    injury_ts: pd.Series
     illness: List[Illness]
     performance: List[Performance]
 
@@ -365,7 +366,7 @@ def initialise_players(
         date_index = values["Stress"].index
         date_index.name = "Date"
         players[inv_map[name]] = SoccerPlayer(
-            inv_map[name],
+            name,
             records["Daily Load"],
             records["SRPE"],
             records["RPE"],
