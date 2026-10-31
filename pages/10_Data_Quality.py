@@ -64,7 +64,7 @@ for tbl_name in ["wellness_daily", "training_sessions", "injury_events", "illnes
             "Status": "✅ Compliant" if len(errs) == 0 else f"⚠️ {len(errs)} Warnings",
             "Missingness Avg": f"{df_tbl.isna().mean().mean() * 100:.1f}%",
         })
-st.dataframe(pd.DataFrame(schema_results), use_container_width=True, hide_index=True)
+st.dataframe(pd.DataFrame(schema_results), hide_index=True)
 
 st.divider()
 
@@ -80,7 +80,7 @@ if not wellness_df.empty:
         value_cols=["readiness", "fatigue", "mood", "sleep_duration_hours", "sleep_quality", "soreness", "stress"],
         title="Athlete Wellness Reporting Completeness"
     )
-    st.plotly_chart(fig_miss, use_container_width=True)
+    st.plotly_chart(fig_miss)
 
 st.divider()
 

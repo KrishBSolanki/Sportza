@@ -129,7 +129,7 @@ with col_fact:
             "Deviation (z)": f"{f.deviation:+.2f}" if f.deviation is not None else "N/A",
             "Interpretation": f.interpretation,
         })
-    st.dataframe(pd.DataFrame(factors_data), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(factors_data), hide_index=True)
 
 # Decision Audit Trace
 with st.expander("🔎 View Full Decision Audit Record (JSON)"):

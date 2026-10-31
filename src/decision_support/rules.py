@@ -383,10 +383,13 @@ class DecisionEngine:
             return None
 
         illness_df = illness_df.copy()
-        illness_df["date"] = pd.to_datetime(illness_df["date"])
+        date_col = "date" if "date" in illness_df.columns else ("event_date" if "event_date" in illness_df.columns else None)
+        if date_col is None:
+            return None
+        illness_df["norm_date"] = pd.to_datetime(illness_df[date_col])
         lookback = cur_dt - timedelta(days=7)
         recent = illness_df[
-            (illness_df["date"] >= lookback) & (illness_df["date"] <= cur_dt)
+            (illness_df["norm_date"] >= lookback) & (illness_df["norm_date"] <= cur_dt)
         ]
 
         if recent.empty:
@@ -400,9 +403,9 @@ class DecisionEngine:
             ]
             if not major.empty:
                 row = major.iloc[-1]
-                illness_type = row.get("type", "unspecified")
+                illness_type = row.get("type", row.get("symptoms", "unspecified"))
                 return (
-                    f"Illness reported on {row['date'].strftime('%Y-%m-%d')}: "
+                    f"Illness reported on {row['norm_date'].strftime('%Y-%m-%d')}: "
                     f"{illness_type} ({row['severity']})."
                 )
 
@@ -415,22 +418,32 @@ class DecisionEngine:
         """Return True if short-term workload is trending upward."""
         if training_df is None or training_df.empty:
             return False
-        if self.WORKLOAD_COL not in training_df.columns:
+
+        workload_col = None
+        for col in [self.WORKLOAD_COL, "daily_load", "srpe"]:
+            if col in training_df.columns:
+                workload_col = col
+                break
+        if workload_col is None:
             return False
 
         df = training_df.copy()
-        df["date"] = pd.to_datetime(df["date"])
-        df = df.sort_values("date")
+        date_col = "session_date" if "session_date" in df.columns else ("date" if "date" in df.columns else None)
+        if date_col is None:
+            return False
+
+        df["_date"] = pd.to_datetime(df[date_col])
+        df = df.sort_values("_date")
 
         window_start = cur_dt - timedelta(days=self.WORKLOAD_TREND_WINDOW)
         recent = df[
-            (df["date"] >= window_start) & (df["date"] <= cur_dt)
+            (df["_date"] >= window_start) & (df["_date"] <= cur_dt)
         ]
 
         if len(recent) < 3:
             return False
 
-        loads = recent[self.WORKLOAD_COL].dropna().values
+        loads = recent[workload_col].dropna().values
         if len(loads) < 3:
             return False
 

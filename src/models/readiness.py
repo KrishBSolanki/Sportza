@@ -142,10 +142,14 @@ class ReadinessForecaster:
         target = result["target_readiness"].copy()
         features = result[self.feature_names + ["date", "player_id_feat"]].copy()
 
-        # Fill remaining NaNs with column medians (from training data only)
+        # Fill remaining NaNs with column medians
         for col in self.feature_names:
-            med = features[col].median()
-            features[col] = features[col].fillna(med if not np.isnan(med) else 0.0)
+            if features[col].notna().any():
+                med = features[col].median()
+                fill_val = float(med) if not np.isnan(med) else 0.0
+            else:
+                fill_val = 0.0
+            features[col] = features[col].fillna(fill_val)
 
         return features, target
 

@@ -90,12 +90,12 @@ st.info(
 st.subheader("📈 Longitudinal Wellness Trajectory")
 metrics_to_plot = ["readiness", "fatigue", "sleep_duration_hours", "sleep_quality", "soreness", "stress"]
 fig_wellness = wellness_timeseries(p_well, selected_player, metrics=metrics_to_plot, title=f"Wellness History for {selected_player}")
-st.plotly_chart(fig_wellness, use_container_width=True)
+st.plotly_chart(fig_wellness)
 
 # ── Workload Trajectory ──────────────────────────────────────────────────
 st.subheader("🏋️ Workload History (sRPE)")
 if not p_sess.empty:
     fig_load = load_trend_chart(p_sess, player_id=selected_player, title=f"Training Load Trend for {selected_player}")
-    st.plotly_chart(fig_load, use_container_width=True)
+    st.plotly_chart(fig_load)
 else:
     st.info("No training session reports available for this athlete.")

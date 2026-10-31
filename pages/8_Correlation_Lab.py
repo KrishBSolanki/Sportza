@@ -68,7 +68,7 @@ fig_corr = correlation_heatmap(
     method=corr_method,
     title=f"Correlation Matrix ({dataset_scope}) — Computed from Live Data"
 )
-st.plotly_chart(fig_corr, use_container_width=True)
+st.plotly_chart(fig_corr)
 
 # ── Collinearity Diagnostic ──────────────────────────────────────────────
 st.subheader("⚠️ Multicollinearity Diagnostics")
@@ -78,7 +78,7 @@ flagged_pairs = flag_high_collinearity(corr_mat, threshold=collin_thresh)
 if flagged_pairs:
     st.warning(f"Detected {len(flagged_pairs)} pairs with high linear collinearity (|r| ≥ {collin_thresh:.2f}):")
     f_df = pd.DataFrame(flagged_pairs, columns=["Feature A", "Feature B", "Correlation (r)"])
-    st.dataframe(f_df, use_container_width=True, hide_index=True)
+    st.dataframe(f_df, hide_index=True)
     st.caption("ℹ️ **Modeling Tip:** Highly collinear variables (e.g. daily load, weekly load, and strain) should not be entered into the same linear regression simultaneously without regularization.")
 else:
     st.success(f"No feature pairs exceed the |r| ≥ {collin_thresh:.2f} collinearity threshold.")
@@ -86,4 +86,4 @@ else:
 # ── Pairwise Sample Sizes ────────────────────────────────────────────────
 with st.expander("🔢 View Pairwise Sample Sizes (Complete Observations)"):
     n_mat = compute_pairwise_sample_sizes(analysis_df)
-    st.dataframe(n_mat, use_container_width=True)
+    st.dataframe(n_mat)

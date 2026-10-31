@@ -8,7 +8,7 @@ For the demo / MVP this is a simple in-memory list.  In production it
 would be backed by a database.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from .explanation import generate_decision_audit
@@ -40,7 +40,7 @@ class DecisionAuditLog:
             The recommendation object produced by ``DecisionEngine.evaluate``.
         """
         audit_record = generate_decision_audit(recommendation)
-        audit_record["logged_at"] = datetime.utcnow().isoformat() + "Z"
+        audit_record["logged_at"] = datetime.now(timezone.utc).isoformat()
         self._entries.append(audit_record)
 
     # ------------------------------------------------------------------ #

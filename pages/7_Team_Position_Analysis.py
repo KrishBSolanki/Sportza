@@ -42,7 +42,7 @@ st.caption("Recreation of Fig. 7 from SoccerMon paper (Midoglu et al., 2024): an
 
 if not sessions_df.empty:
     fig_team_box = team_comparison_boxplot(sessions_df, title="Training Sessions Completed per Player (2020 vs 2021)")
-    st.plotly_chart(fig_team_box, use_container_width=True)
+    st.plotly_chart(fig_team_box)
 
     team_comp = compute_team_comparison(wellness_df, sessions_df)
     annual_data = team_comp.get("sessions", {}).get("annual_per_player", {})
@@ -57,7 +57,7 @@ if not sessions_df.empty:
                 "Mean Sessions": round(stats["mean"], 1),
                 "Min - Max": f"{stats['min']} - {stats['max']}",
             })
-        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(rows), hide_index=True)
 
 st.divider()
 
@@ -84,7 +84,7 @@ with tabs[0]:
         labels={"total_distance_m": "Total Distance (m)", "position": "Position"},
     )
     fig_td.update_layout(**get_plotly_layout())
-    st.plotly_chart(fig_td, use_container_width=True)
+    st.plotly_chart(fig_td)
 
 with tabs[1]:
     fig_hsr = px.box(
@@ -93,7 +93,7 @@ with tabs[1]:
         labels={"hsrd_m": "HSR Distance (m)", "position": "Position"},
     )
     fig_hsr.update_layout(**get_plotly_layout())
-    st.plotly_chart(fig_hsr, use_container_width=True)
+    st.plotly_chart(fig_hsr)
 
 with tabs[2]:
     fig_spd = px.box(
@@ -102,7 +102,7 @@ with tabs[2]:
         labels={"sprint_distance_m": "Sprint Distance (m)", "position": "Position"},
     )
     fig_spd.update_layout(**get_plotly_layout())
-    st.plotly_chart(fig_spd, use_container_width=True)
+    st.plotly_chart(fig_spd)
 
 with tabs[3]:
     fig_acc = px.box(
@@ -111,7 +111,7 @@ with tabs[3]:
         labels={"acc_distance_m": "Acc Distance (m)", "position": "Position"},
     )
     fig_acc.update_layout(**get_plotly_layout())
-    st.plotly_chart(fig_acc, use_container_width=True)
+    st.plotly_chart(fig_acc)
 
 with tabs[4]:
     # Peak 1-min vs Next 5-min vs Mean 5-min comparison
@@ -134,4 +134,4 @@ with tabs[4]:
         labels={"Distance": "Distance (m)", "position": "Position"},
     )
     fig_peak.update_layout(**get_plotly_layout())
-    st.plotly_chart(fig_peak, use_container_width=True)
+    st.plotly_chart(fig_peak)

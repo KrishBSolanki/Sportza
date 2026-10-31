@@ -37,7 +37,10 @@ class GamePerformanceForecaster:
             return pd.DataFrame(), pd.Series(dtype=float)
 
         gdf = game_df.copy()
-        gdf["match_date"] = pd.to_datetime(gdf["match_timestamp"]).dt.normalize()
+        date_col = "match_timestamp" if "match_timestamp" in gdf.columns else ("date" if "date" in gdf.columns else "session_date")
+        if date_col not in gdf.columns:
+            return pd.DataFrame(), pd.Series(dtype=float)
+        gdf["match_date"] = pd.to_datetime(gdf[date_col]).dt.normalize()
         
         adf = athlete_features_df.copy()
         adf["date"] = pd.to_datetime(adf["date"]).dt.normalize()

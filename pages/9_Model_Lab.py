@@ -90,11 +90,11 @@ if "Task 1" in task:
 
             c1, c2 = st.columns(2)
             with c1:
-                st.plotly_chart(actual_vs_predicted(y_test, y_pred, title="Actual vs Predicted Readiness"), use_container_width=True)
+                st.plotly_chart(actual_vs_predicted(y_test, y_pred, title="Actual vs Predicted Readiness"))
             with c2:
                 top_feats = list(metrics["top_10_features"].keys())
                 top_vals = np.array(list(metrics["top_10_features"].values()))
-                st.plotly_chart(feature_importance_chart(top_feats, top_vals, title="Top Predictive Features"), use_container_width=True)
+                st.plotly_chart(feature_importance_chart(top_feats, top_vals, title="Top Predictive Features"))
 
             # Model Card
             st.divider()
@@ -131,7 +131,7 @@ elif "Task 2" in task:
                 k1.metric("Model MAE", f"{res['model_mae']:.2f}")
                 k2.metric("Historical Mean Baseline MAE", f"{res['baseline_mean_mae']:.2f}")
                 k3.metric("MAE Improvement", f"{res['mae_improvement']:+.2f}")
-                st.dataframe(pd.DataFrame(list(res["feature_importance"].items()), columns=["Feature", "Importance"]), use_container_width=True)
+                st.dataframe(pd.DataFrame(list(res["feature_importance"].items()), columns=["Feature", "Importance"]))
 
 elif "Task 3" in task:
     st.subheader("🩹 Task 3: Injury/Pain Report Risk Model")

@@ -102,13 +102,13 @@ if st.button("Train & Evaluate Forecaster", type="primary"):
             col_p1, col_p2 = st.columns([1, 1])
             with col_p1:
                 fig_res = actual_vs_predicted(y_test, y_pred, title="Actual vs Predicted Next-Day Readiness")
-                st.plotly_chart(fig_res, use_container_width=True)
+                st.plotly_chart(fig_res)
 
             with col_p2:
                 top_feats = list(metrics["top_10_features"].keys())
                 top_vals = np.array(list(metrics["top_10_features"].values()))
                 fig_feat = feature_importance_chart(top_feats, top_vals, title="Top Predictive Features")
-                st.plotly_chart(fig_feat, use_container_width=True)
+                st.plotly_chart(fig_feat)
 
         except Exception as e:
             st.error(f"Error during training: {e!s}")

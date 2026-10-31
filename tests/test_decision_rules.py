@@ -68,3 +68,41 @@ def test_decision_engine_injury_escalation():
     assert rec.status == RecommendationStatus.HUMAN_REVIEW
     assert any("right_knee" in flag for flag in rec.escalation_flags)
     assert "clinician" in rec.recommendation_text.lower()
+
+
+def test_decision_engine_workload_trend_and_training_history():
+    engine = DecisionEngine()
+    dates = pd.date_range("2020-01-01", "2020-01-20", freq="D")
+    wellness = pd.DataFrame({
+        "player_id": ["P1"] * len(dates),
+        "date": dates.strftime("%Y-%m-%d"),
+        "readiness": [5.0] * len(dates),
+        "fatigue": [4.0] * len(dates),
+        "mood": [3.0] * len(dates),
+        "sleep_quality": [3.0] * len(dates),
+        "sleep_duration_hours": [7.0] * len(dates),
+        "soreness": [4.0] * len(dates),
+        "stress": [4.0] * len(dates),
+    })
+    training = pd.DataFrame({
+        "player_id": ["P1"] * 7,
+        "session_date": dates[-7:].strftime("%Y-%m-%d"),
+        "session_type": ["training"] * 7,
+        "duration_minutes": [60] * 7,
+        "rpe": [5] * 7,
+        "daily_load": [100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0],
+    })
+    rec = engine.evaluate(
+        player_id="P1",
+        current_date="2020-01-20",
+        wellness_history=wellness,
+        training_history=training,
+        injury_history=pd.DataFrame(),
+        illness_history=pd.DataFrame(),
+    )
+    assert rec.status in (
+        RecommendationStatus.RECOVERY_FOCUSED,
+        RecommendationStatus.MONITOR,
+        RecommendationStatus.HUMAN_REVIEW,
+    )
+    assert rec.data_adequacy == DataAdequacy.GOOD

@@ -151,8 +151,8 @@ col_chart1, col_chart2 = st.columns(2)
 
 with col_chart1:
     fig_readiness = squad_readiness_distribution(w_filtered, title="Squad Readiness Distribution")
-    st.plotly_chart(fig_readiness, use_container_width=True)
+    st.plotly_chart(fig_readiness)
 
 with col_chart2:
     fig_trend = load_trend_chart(s_filtered, title=f"Squad Workload Trend ({selected_team})")
-    st.plotly_chart(fig_trend, use_container_width=True)
+    st.plotly_chart(fig_trend)

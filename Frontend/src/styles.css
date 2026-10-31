@@ -1,0 +1,150 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * SPORTZA design system — light only, no dark mode, no theme switching.
+ *
+ * Palette (user-approved):
+ *   page bg        #F6F7F4   warm off-white
+ *   surface        #FFFFFF   white
+ *   secondary      #EEF1ED   soft neutral
+ *   foreground     #202923   deep charcoal
+ *   muted-foreground #65716A muted slate
+ *   border         #DCE3DC   soft grey-green
+ *   primary        #27634B   deep forest green
+ *   sage           #8DA996   muted sage
+ *   amber          #C58A3A   restrained warm amber (attention only)
+ *   brick          #B95750   muted brick red (negative only)
+ *   info           #58778A   calm blue-grey
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sage: var(--sage);
+  --color-sage-foreground: var(--sage-foreground);
+  --color-amber: var(--amber);
+  --color-amber-foreground: var(--amber-foreground);
+  --color-brick: var(--brick);
+  --color-brick-foreground: var(--brick-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.975 0.0041 121.6);
+  --foreground: oklch(0.27 0.0168 155.9);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.27 0.0168 155.9);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.27 0.0168 155.9);
+  --primary: oklch(0.453 0.0743 164.2);
+  --primary-foreground: oklch(0.975 0.0058 153.8);
+  --secondary: oklch(0.955 0.0062 137.8);
+  --secondary-foreground: oklch(0.27 0.0168 155.9);
+  --muted: oklch(0.955 0.0062 137.8);
+  --muted-foreground: oklch(0.536 0.018 160.2);
+  --accent: oklch(0.945 0.012 150);
+  --accent-foreground: oklch(0.27 0.0168 155.9);
+  --destructive: oklch(0.576 0.1283 26);
+  --destructive-foreground: oklch(0.966 0.0109 24.3);
+  --border: oklch(0.909 0.012 145.5);
+  --input: oklch(0.909 0.012 145.5);
+  --ring: oklch(0.453 0.0743 164.2 / 45%);
+  --sidebar: oklch(0.968 0.005 130);
+  --sidebar-foreground: oklch(0.27 0.0168 155.9);
+  --sidebar-border: oklch(0.909 0.012 145.5);
+  --sage: oklch(0.708 0.0414 155.5);
+  --sage-foreground: oklch(0.27 0.0168 155.9);
+  --amber: oklch(0.678 0.1191 71.3);
+  --amber-foreground: oklch(0.304 0.0518 71.3);
+  --brick: oklch(0.576 0.1283 26);
+  --brick-foreground: oklch(0.966 0.0109 24.3);
+  --info: oklch(0.553 0.0463 235.6);
+  --info-foreground: oklch(0.946 0.0067 233.6);
+  --success: oklch(0.453 0.0743 164.2);
+  --success-foreground: oklch(0.975 0.0058 153.8);
+}
+
+/* Soft tinted surfaces for callouts, built from the palette at low alpha. */
+:root {
+  --tint-caution: oklch(0.678 0.1191 71.3 / 10%);
+  --tint-negative: oklch(0.576 0.1283 26 / 9%);
+  --tint-positive: oklch(0.453 0.0743 164.2 / 9%);
+  --tint-info: oklch(0.553 0.0463 235.6 / 9%);
+}
+
+@theme inline {
+  --color-tint-caution: var(--tint-caution);
+  --color-tint-negative: var(--tint-negative);
+  --color-tint-positive: var(--tint-positive);
+  --color-tint-info: var(--tint-info);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv05" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tabular numerals for measurements, dates, percentages and KPI values. */
+  .tabular,
+  table,
+  td,
+  th,
+  time,
+  [data-tabular] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+}
+
+@utility page-shell {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@utility text-caption {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-muted-foreground);
+}

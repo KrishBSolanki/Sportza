@@ -389,6 +389,29 @@ def _load_from_upstream_module(data_dir: Path) -> dict[str, pd.DataFrame]:
                     "source_file": "upstream_excel",
                 })
 
+            # Training Sessions & Workload
+            if hasattr(player, "daily_load") and player.daily_load is not None:
+                sess_time_idx = getattr(player.daily_load, "index", [])
+                for i, dt in enumerate(sess_time_idx):
+                    session_rows.append({
+                        "player_id": player_id,
+                        "session_date": pd.Timestamp(dt),
+                        "session_type": "training",
+                        "duration_minutes": _safe_index(player.duration, i) or 0.0,
+                        "rpe": _safe_index(player.rpe, i) or 0.0,
+                        "srpe": _safe_index(player.srpe, i) or 0.0,
+                        "daily_load": _safe_index(player.daily_load, i) or 0.0,
+                        "weekly_load": _safe_index(player.weekly_load, i),
+                        "atl": _safe_index(player.atl, i),
+                        "ctl_28": _safe_index(player.ctl28, i),
+                        "ctl_42": _safe_index(player.ctl42, i),
+                        "acwr": _safe_index(player.acwr, i),
+                        "monotony": _safe_index(player.monotony, i),
+                        "strain": _safe_index(player.strain, i),
+                        "source_dataset": _SOURCE_DATASET,
+                        "source_file": "upstream_excel",
+                    })
+
             # Injuries
             for inj in player.injuries:
                 injury_rows.append({
@@ -427,6 +450,11 @@ def _load_from_upstream_module(data_dir: Path) -> dict[str, pd.DataFrame]:
         result["wellness_daily"] = pd.DataFrame(wellness_rows)
         result["wellness_daily"]["date"] = pd.to_datetime(
             result["wellness_daily"]["date"]
+        )
+    if session_rows:
+        result["training_sessions"] = pd.DataFrame(session_rows)
+        result["training_sessions"]["session_date"] = pd.to_datetime(
+            result["training_sessions"]["session_date"]
         )
     if injury_rows:
         result["injury_events"] = pd.DataFrame(injury_rows)

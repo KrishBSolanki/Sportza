@@ -76,9 +76,9 @@ def correlation_heatmap(
     
     fig.update_layout(
         **get_plotly_layout(title=title, height=500),
-        xaxis={"tickangle": 45, "tickfont": {"size": 10}},
-        yaxis={"tickfont": {"size": 10}},
     )
+    fig.update_xaxes(tickangle=45, tickfont={"size": 10})
+    fig.update_yaxes(tickfont={"size": 10})
     return fig
 
 
@@ -379,8 +379,8 @@ def missingness_heatmap(
     fig.update_layout(
         **get_plotly_layout(title=title),
         height=max(400, len(coverage) * 25),
-        xaxis={"tickangle": 45},
     )
+    fig.update_xaxes(tickangle=45)
     return fig
 
 

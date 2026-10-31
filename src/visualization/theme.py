@@ -75,7 +75,11 @@ def get_plotly_layout(**kwargs) -> dict:
     """Return a copy of the base Plotly layout with optional overrides."""
     import copy
     layout = copy.deepcopy(PLOTLY_TEMPLATE["layout"])
-    layout.update(kwargs)
+    for k, v in kwargs.items():
+        if isinstance(v, dict) and k in layout and isinstance(layout[k], dict):
+            layout[k].update(v)
+        else:
+            layout[k] = v
     return layout
 
 

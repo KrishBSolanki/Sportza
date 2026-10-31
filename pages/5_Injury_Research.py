@@ -74,11 +74,11 @@ st.info(
 col_v1, col_v2 = st.columns([1, 1])
 with col_v1:
     fig_heat = injury_heatmap(df_inj, title="Injury Count by Body Location & Severity")
-    st.plotly_chart(fig_heat, use_container_width=True)
+    st.plotly_chart(fig_heat)
 
 with col_v2:
     fig_time = injury_timeline(df_inj, title="Injury Report Timeline Across Squad")
-    st.plotly_chart(fig_time, use_container_width=True)
+    st.plotly_chart(fig_time)
 
 st.divider()
 

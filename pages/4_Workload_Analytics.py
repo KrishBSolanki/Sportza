@@ -74,7 +74,7 @@ st.warning(
 st.subheader("📊 Load Trajectory (Daily sRPE, 7-Day Sum, 28-Day Baseline)")
 pid_arg = None if selected_player == "All Athletes" else selected_player
 fig_trend = load_trend_chart(sub_df, player_id=pid_arg, title=f"Training Load Dynamics ({selected_player})")
-st.plotly_chart(fig_trend, use_container_width=True)
+st.plotly_chart(fig_trend)
 
 # ── Session Type Breakdown & Comparisons ──────────────────────────────────
 col_b1, col_b2 = st.columns(2)
@@ -89,9 +89,9 @@ with col_b1:
             title="Cumulative Workload by Session Type",
         )
         fig_pie.update_layout(**get_plotly_layout())
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.plotly_chart(fig_pie)
 
 with col_b2:
     st.subheader("👥 Annual Sessions per Player")
     fig_box = team_comparison_boxplot(sessions_df, title="Sessions per Player by Team/Year")
-    st.plotly_chart(fig_box, use_container_width=True)
+    st.plotly_chart(fig_box)
